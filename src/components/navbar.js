@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Link } from "react-router-dom";
+import NavbarItem from "./navbaritem";
 
 function Navbar() {
   return (
@@ -22,26 +23,10 @@ function Navbar() {
 
         <div className="collapse navbar-collapse" id="navbarResponsive">
           <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link className="nav-link" to="/home">
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/cadastro-usuario">
-                Usuários
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/consulta-lancamentos">
-                Lançamentos
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/login">
-                Login
-              </Link>
-            </li>
+            <NavbarItem href="/home" label="Home" />
+            <NavbarItem href="/cadastro-usuario" label="Usuários" />
+            <NavbarItem href="/consulta-lancamentos" label="Lançamentos" />
+            <NavbarItem href="/login" label="Login" />
           </ul>
         </div>
       </div>
