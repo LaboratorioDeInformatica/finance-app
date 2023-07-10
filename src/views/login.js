@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 import Card from "../components/card";
 import FormGroup from "../components/form-group";
 import axios from "axios";
+import UsuarioService from "../app/service/usuarioService";
+import LocalStorageService from "../app/service/localstorageService";
+
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,13 +14,17 @@ const Login = () => {
   const [mensagemErro, setMensagemErro] = useState(null);
   const navigate = useNavigate();
 
+  const service = new UsuarioService();
+ 
+
   const entrar = () => {
-    axios.post('http://localhost:8080/api/usuarios/autenticar', {
+
+    service.autenticar({
       email: email,
       senha: senha
     }).then(response =>{
       console.log(response)
-      localStorage.setItem('_usuario_logado', JSON.stringify(response.data))
+      LocalStorageService.addItem('_usuario_logado', response.data)
       navigate("/home");
     }).catch(erro => {
       setMensagemErro(erro.response.data);
