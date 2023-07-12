@@ -7,6 +7,9 @@ import { BrowserRouter } from "react-router-dom";
 import 'bootswatch/dist/flatly/bootstrap.css';
 import '../custom.css';
 import '../App.css';
+import 'toastr/build/toastr.min.js';
+import 'toastr/build/toastr.css';
+
 
 
 

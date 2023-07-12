@@ -5,13 +5,14 @@ import FormGroup from "../components/form-group";
 import axios from "axios";
 import UsuarioService from "../app/service/usuarioService";
 import LocalStorageService from "../app/service/localstorageService";
+import { mensagemErro } from "../components/toastr";
 
 
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [mensagemErro, setMensagemErro] = useState(null);
+  const [mensagemError, setMensagemErro] = useState(null);
   const navigate = useNavigate();
 
   const service = new UsuarioService();
@@ -27,7 +28,8 @@ const Login = () => {
       LocalStorageService.addItem('_usuario_logado', response.data)
       navigate("/home");
     }).catch(erro => {
-      setMensagemErro(erro.response.data);
+
+      mensagemErro(erro.response.data);
     })
 
   };
@@ -42,7 +44,7 @@ const Login = () => {
         <div className="bs-docs-section">
           <Card title="Login">
           <div className="row">
-            <span>{mensagemErro}</span>
+            <span>{mensagemError}</span>
           </div>
             <div className="row">
               <div className="col-lg-12">
