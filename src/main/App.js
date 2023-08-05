@@ -10,6 +10,9 @@ import '../App.css';
 import 'toastr/build/toastr.min.js';
 import 'toastr/build/toastr.css';
 
+import 'primereact/resources/themes/nova/theme.css'; // Importe o arquivo corretamente
+import 'primereact/resources/primereact.min.css'; // Importe outros estilos do PrimeReact
+import 'primeicons/primeicons.css'; // Importe os ícones do PrimeIcons
 
 
 
