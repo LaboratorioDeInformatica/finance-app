@@ -5,12 +5,14 @@ import SelectMenu from "../../components/select-menu";
 import LancamentosTable from "./lancamentos-table";
 import LancamentoService from "../../app/service/lancamentoService";
 import LocalStorageService from "../../app/service/localstorageService";
-import { mensagemErro, mensagemSucesso } from "../../components/toastr";
+import { mensagemErro, mensagemSucesso, mensagemAlerta } from "../../components/toastr";
 import {Dialog} from 'primereact/dialog';
 import {Button} from 'primereact/button';
-
+import { useNavigate } from "react-router-dom";
 
 const ConsultaLancamentos = () => {
+
+    const navigate = useNavigate();
 
     const [ano, setAno] = useState("");
     const [mes, setMes] = useState("");
@@ -61,6 +63,10 @@ const ConsultaLancamentos = () => {
         }
 
         service.consultar(lancamentoFiltro).then(response => {
+            const lista = response.data;
+            if(lista.length < 1){
+                mensagemAlerta('Nenhum resultado encontrado.');
+            }
             setLancamentos(response.data);
         }).catch(error => {
             console.log(error);
@@ -68,9 +74,13 @@ const ConsultaLancamentos = () => {
 
     };
 
+    const handleCadastroLancamentos = () => {
+        navigate("/cadastro-lancamentos");
+    };
+
 
     const editar = (id) => {
-        console.log('Editando o lançamento', id);
+        navigate(`/cadastro-lancamentos/${id}`);
     }
 
     const deletar = () => {
@@ -90,6 +100,20 @@ const ConsultaLancamentos = () => {
         setShowDialog(true);
     }
 
+   const  alterarStatus = (lancamento, status) => {
+        const service = new LancamentoService();
+        service.alterarStatus(lancamento.id, status).then(response => {
+            // Atualiza o estado de lançamentos após a alteração bem-sucedida
+            const lancamentosAtualizados = [...lancamentos];
+            const index = lancamentosAtualizados.indexOf(lancamento);
+            if (index !== -1) {
+                lancamento['status'] = status;
+                lancamentosAtualizados[index] = lancamento;
+                setLancamentos(lancamentosAtualizados);
+            }
+            mensagemSucesso('Status atualizado com sucesso!');
+        });
+    }
 
     const footer = (
         <div>
@@ -128,15 +152,15 @@ const ConsultaLancamentos = () => {
                             <SelectMenu id="inputTipo" className="form-control" lista={tipos} value={tipo} onChange= { e=> setTipo(e.target.value)}/>
                         </FormGroup>
 
-                        <button type="button" className="btn btn-success" onClick={buscar}>Buscar</button>
-                        <button type="button" className="btn btn-danger">Cadastrar</button>
+                        <button type="button" className="btn btn-success" onClick={buscar}>Buscar          <i className="pi pi-search"></i></button>
+                        <button  type="button" className="btn btn-danger" onClick={handleCadastroLancamentos} >Cadastrar  <i className="pi pi-plus"></i></button>
 
                     </div>
                 </div>
             </div>
             <div className="row">
                 <div className="col-md-12">
-                    <LancamentosTable lancamentos={lancamentos} deleteAction={abrirConfirmacao} editAction={editar}/>
+                    <LancamentosTable lancamentos={lancamentos} deleteAction={abrirConfirmacao} editAction={editar} alterarStatus ={alterarStatus} />
                 </div>
             </div>
             <div>

@@ -1,4 +1,5 @@
 import ApiService from "../apiservice"; 
+import ErroValidacao from "../exception/erroValidacao";
 
 class UsuarioService extends ApiService {
 
@@ -37,9 +38,9 @@ class UsuarioService extends ApiService {
             erros.push('As senhas não batem.')
         }
 
-       /* if(erros && erros.length > 0){
+       if(erros && erros.length > 0){
             throw new ErroValidacao(erros);
-        }*/
+        }
     }
 
 }

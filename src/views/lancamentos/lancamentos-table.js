@@ -3,7 +3,7 @@ import currencyFormatter from "currency-formatter";
 
 const LancamentosTable = (props) => {
 
-    const { lancamentos, editAction, deleteAction } = props;
+    const { lancamentos, editAction, deleteAction, alterarStatus } = props;
 
     const rows = lancamentos.map(lancamento => {
         return (
@@ -14,11 +14,19 @@ const LancamentosTable = (props) => {
                 <td>{lancamento.mes}</td>
                 <td>{lancamento.status}</td>
                 <td>
-                    <button type="button" className="btn btn-primary" onClick={() => editAction(lancamento.id)}>
-                        Editar
+                    <button title="Efetivar" type="button" className="btn btn-success" 
+                    onClick={() => alterarStatus(lancamento, 'EFETIVADO')} 
+                    disabled={lancamento.status !== 'PENDENTE' } >
+                        <i className="pi pi-check"></i>
                     </button>
-                    <button type="button" className="btn btn-danger" onClick={() => deleteAction(lancamento)}>
-                        Deletar
+                    <button title="Cancelar" type="button" className="btn btn-warning" onClick={() => alterarStatus(lancamento, 'CANCELADO')}  disabled={lancamento.status !== 'PENDENTE'}>
+                        <i className="pi pi-times"></i>
+                    </button>
+                    <button title="Editar" type="button" className="btn btn-primary" onClick={() => editAction(lancamento.id)}>
+                        <i className="pi pi-pencil"></i>
+                    </button>
+                    <button title="Excluir" type="button" className="btn btn-danger" onClick={() => deleteAction(lancamento)}>
+                        <i className="pi pi-trash"></i>
                     </button>
                 </td>
             </tr>

@@ -3,6 +3,7 @@ import React from 'react';
 import Rotas from './rotas';
 import Navbar from '../components/navbar';
 import { BrowserRouter } from "react-router-dom";
+import ProvedorAutenticacao from './provedorAutenticacao';
 
 import 'bootswatch/dist/flatly/bootstrap.css';
 import '../custom.css';
@@ -20,7 +21,7 @@ import 'primeicons/primeicons.css'; // Importe os ícones do PrimeIcons
 class App extends React.Component {
   render() {
     return (
-      <>
+      <ProvedorAutenticacao>
       <BrowserRouter>
       <Navbar />
       <div className='container'>
@@ -30,7 +31,7 @@ class App extends React.Component {
     </BrowserRouter>
       
      
-      </>
+      </ProvedorAutenticacao>
      
     );
   }

@@ -12,34 +12,25 @@ const CadastroUsuario = () => {
   const [senhaRepeticao, setSenhaRepeticao] = useState("");
   const navigate = useNavigate();
 
-  function validar() {
-    const msgs = [];
-    if(!nome){
-        msgs.push('O campo Nome é obrigatório.')
-    }
-    if(!email){
-        msgs.push('O campo Email é obrigatório.')
-    }else if(!email.match(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]/)){
-        msgs.push('Informe um Email válido.')
-    }
-    if(!senha || !senhaRepeticao){
-        msgs.push('Digite a senha duas vezes.');
-    }
-    else if(senha !== senhaRepeticao){
-        msgs.push('As senhas não batem.');
-    }
-    return msgs;
-  }
+
 
   const cadastrar = () => {
-    const msgs = validar();
-    if (msgs && msgs.length > 0) {
-      msgs.forEach((msg, index) => {
-        mensagemErro(msg);
+    
+    const usuarioService = new UsuarioService();
+    
+    try{
+      usuarioService.validar({
+        nome,
+        senha,
+        email,
+        senhaRepeticao
       });
+    }catch(erro){
+      const msgs = erro.errors;
+      msgs.forEach(msg => mensagemErro(msg));
       return false;
     }
-    const usuarioService = new UsuarioService();
+
     usuarioService.salvar({
       nome,
       senha,
@@ -107,10 +98,10 @@ const CadastroUsuario = () => {
                     />
                   </FormGroup>
                   <button type="button" className="btn btn-success" onClick={cadastrar}>
-                    Salvar
+                  <i className="pi pi-save"></i>   Salvar
                   </button>
                   <button type="button" className="btn btn-danger" onClick={prepareLogin}>
-                    Cancelar
+                  <i className="pi pi-times"> </i> Cancelar
                   </button>
                 </div>
               </div>

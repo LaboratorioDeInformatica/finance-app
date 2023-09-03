@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/card";
 import FormGroup from "../components/form-group";
@@ -6,6 +6,7 @@ import axios from "axios";
 import UsuarioService from "../app/service/usuarioService";
 import LocalStorageService from "../app/service/localstorageService";
 import { mensagemErro } from "../components/toastr";
+import { AuthContext } from "../main/provedorAutenticacao";
 
 
 
@@ -17,6 +18,7 @@ const Login = () => {
 
   const service = new UsuarioService();
  
+  const { iniciarSessao } = useContext(AuthContext); 
 
   const entrar = () => {
 
@@ -25,8 +27,11 @@ const Login = () => {
       senha: senha
     }).then(response =>{
       console.log(response)
-      LocalStorageService.addItem('_usuario_logado', response.data)
+     // LocalStorageService.addItem('_usuario_logado', response.data)
+     if (response && response.data) {
+       iniciarSessao(response.data);
       navigate("/home");
+    } 
     }).catch(erro => {
 
       mensagemErro(erro.response.data);
@@ -87,5 +92,5 @@ const Login = () => {
     </div>
   );
 };
-
+Login.contextType = AuthContext;
 export default Login;
